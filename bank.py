@@ -1,11 +1,64 @@
 class BankAccount:
-  pass
+  def __init__(self):
+    self.balance = 0
+    self.interest_rate = 0.02
+  
+  def __str__(self):
+    return (f"Current balance {self.balance}")
+  
+  def deposit(self, amount):
+    self.balance += amount
+    if amount < 0:
+      return False
+    else:
+      return self.balance
 
-class ChildrensAccount:
-  pass
+  def withdraw(self, amount):
+    if amount < 0:
+      return False
+    else:
+      self.balance -= amount
+      return self.balance 
+  
+  def accumulate_interest(self):
+    self.balance = (self.balance * self.interest_rate) + self.balance
+    return self.balance
+      
 
-class OverdraftAccount:
-  pass
+class ChildrensAccount(BankAccount):
+  def __init__(self):
+    super().__init__()
+    self.interest_rate = 0
+
+  def accumulate_interest(self):
+      self.balance += 10
+      return self.balance
+
+
+class OverdraftAccount(BankAccount):
+  def __init__(self):
+    super().__init__()
+    self.overdraft_penalty = 40
+
+  def withdraw(self, amount):
+    if amount > self.balance:
+      self.balance -= self.overdraft_penalty
+      return False
+    else:
+      self.balance -= amount
+      return self.balance
+
+  def accumulate_interest(self):
+      if self.balance < 0:
+        pass
+      else:
+        self.balance = (self.balance * self.interest_rate) + self.balance
+        return self.balance
+
+
+
+
+
 
 basic_account = BankAccount()
 basic_account.deposit(600)
